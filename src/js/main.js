@@ -3,10 +3,13 @@ const cep = document.querySelector("#cep")
 const showData = (result)=>{
     for(const campo in result){
         if(document.querySelector("#"+campo)){
-            document.querySelector("#"+campo).value = 
+            document.querySelector("#"+campo).value = result[campo]
         }
     }
 }
+
+
+
 
 cep.addEventListener("blur",(e)=>{
     let search = cep.value.replace("-","")
@@ -16,9 +19,9 @@ cep.addEventListener("blur",(e)=>{
         cache: 'default'
     }
 
-    fetch(`http://viacep.com.br/ws/${search}/json/`, options)
+    fetch(`https://viacep.com.br/ws/${search}/json/`, options)
     .then(response =>{ response.json()
-    .catch( data => console.log(data))
-})
-.catch(e => console.log('Deu Erro: '+ e, message))
+        .then( data => showData(data))
+    })
+    .catch(e => console.log('Deu Erro: '+ e,message))
 })
